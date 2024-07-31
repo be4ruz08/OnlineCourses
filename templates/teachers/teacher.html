@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block teacher %}
+<!-- Header Start -->
+<div class="container-fluid page-header" style="margin-bottom: 90px;">
+    <div class="container">
+        <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+            <h3 class="display-4 text-white text-uppercase">Teachers</h3>
+            <div class="d-inline-flex text-white">
+                <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Teachers</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Header End -->
+
+<!-- Team Start -->
+<div class="container-fluid py-5">
+    <div class="container pt-5 pb-3">
+        <div class="text-center mb-5">
+            <h5 class="text-primary text-uppercase mb-3" style="letter-spacing: 5px;">Teachers</h5>
+            <h1>Meet Our Teachers</h1>
+        </div>
+        <div class="row">
+            {% for teacher in teachers %}
+            <div class="col-md-6 col-lg-3 text-center team mb-4">
+                <div class="team-item rounded overflow-hidden mb-2">
+                    <div class="team-img position-relative">
+                        {% if teacher.image %}
+                        <img class="img-fluid" src="{{ teacher.image.url }}" alt="{{ teacher.full_name }}">
+                        {% else %}
+                        <img class="img-fluid" src="{% static 'images/default_teacher.png' %}" alt="Default Image">
+                        {% endif %}
+                    </div>
+                    <div class="bg-secondary p-4">
+                        <a href="{% url 'teacher_detail' teacher.id %}">{{ teacher.full_name }}</a>
+                        <p class="m-0">{{ teacher.get_level_display }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Team End -->
+{% endblock %}

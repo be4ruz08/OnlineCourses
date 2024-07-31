@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <p>Image URL: {% if teacher.image %}{{ teacher.image.url }}{% else %}No Image{% endif %}</p>
+            {% if teacher.image %}
+            <img class="img-fluid rounded" src="{{ teacher.image.url }}" alt="{{ teacher.full_name }}">
+            {% else %}
+            <img class="img-fluid rounded" src="{% static 'images/default_teacher.png' %}" alt="Default Image">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1>{{ teacher.full_name }}</h1>
+            <p>Rating: {{ teacher.rating }}</p>
+            <p>Level: {{ teacher.get_level_display }}</p>
+            <p>Description: {{ teacher.description }}</p>
+            <p>Category: {{ teacher.category.name }}</p>
+            <a href="{% url 'teacher_list' %}">Back to Teachers</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

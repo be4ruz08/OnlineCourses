@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block single %}
+    <!-- Header Start -->
+    <div class="container-fluid page-header" style="margin-bottom: 90px;">
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center" style="min-height: 300px">
+                <h3 class="display-4 text-white text-uppercase">Single</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="{% url 'index' %}">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">Single</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="mb-5">
+                        <h6 class="text-primary mb-3">{{ blog.date_added }}</h6>
+                        <h1 class="mb-5">{{ blog.title }}</h1>
+                        <img class="img-fluid rounded w-90 mb-4" src="{% static 'img/blog-1.jpg' %}" alt="Image"> 
+                        <p>{{ blog.content }}</p>
+                    </div>
+                    
+                    <!-- Comment List -->
+                    <div class="comments-section">
+    <h3>Comments</h3>
+    {% for comment in comments %}
+        <div class="comment">
+            <p><strong>{{ comment.name }}</strong> ({{ comment.rating }})</p>
+            <p>{{ comment.comment }}</p>
+        </div>
+    {% empty %}
+        <p>No comments yet.</p>
+    {% endfor %}
+</div>
+
+                    
+
+
+                    <!-- Comment Form -->
+                    <div class="bg-secondary rounded p-5">
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.non_field_errors }}
+
+                            <div class="form-group">
+                                <label for="name">Name *</label>
+                                {{ form.name }}
+                                {{ form.name.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="form-group">
+                                <label for="website">Message</label>
+                                {{ form.comment }}
+                                {{ form.comment.errors }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Rating *</label>
+                                {{ form.rating }}
+                                {{ form.rating.errors }}
+                            </div>
+                            <div class="form-group mb-0">
+                                <input type="submit" value="Leave Comment"
+                                       class="btn btn-primary py-md-2 px-md-4 font-weight-semi-bold">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-5 mt-lg-0">
+                    <!-- Author Bio -->
+                    <div class="d-flex flex-column text-center bg-dark rounded mb-5 py-5 px-4">
+                        <img src="{{ blog.auther_id.image.url }}" class="img-fluid rounded-circle mx-auto mb-3"
+                             style="width: 230px; height: 200px">
+                        <h3 class="text-primary mb-3">{{ blog.auther_id.full_name }}</h3>
+                        <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Author Bio</h3>
+                        <p class="text-white m-0">{{ blog.auther_id.education }}</p>
+                    </div>
+                    
+                    <!-- Recent Post -->
+                <div class="mb-5">
+                    <h3 class="text-uppercase mb-4" style="letter-spacing: 5px;">Recent Posts</h3>
+                    {% for recent_blog in recent_blogs %}
+                        <a class="d-flex align-items-center text-decoration-none mb-3" href="{% url 'single' recent_blog.pk %}">
+                            <img class="img-fluid rounded" src="{{ recent_blog.image.url }}" alt="">
+                            <div class="pl-3">
+                                <h6 class="m-1">{{ recent_blog.title }}</h6>
+                                <small>{{ recent_blog.date_added }}</small>
+                            </div>
+                        </a>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Detail End -->
+{% endblock %}
